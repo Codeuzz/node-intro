@@ -57,4 +57,24 @@ app.post('/musics', (req, res) => {
     }
 })
 
+app.put('/musics/:id', (req, res) => {
+    const { id } = req.params
+    const { name, author, genre } = req.body;
+
+    try {
+        const musicIndex = musics.findIndex(music => music.id === parseInt(id));
+        if (musicIndex === -1) {
+            return res.status(404).json({ message: 'Music not found' });
+        }
+
+        if (name) musics[musicIndex].name = name;
+        if (author) musics[musicIndex].author = author
+        if (genre) musics[musicIndex].genre = genre
+
+        return res.status(200).json(musics[musicIndex])
+    } catch (err) {
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 app.listen(8000, () => console.log(`server running on port ${PORT}`))
