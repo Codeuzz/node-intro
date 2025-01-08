@@ -43,7 +43,7 @@ musicsRouter.post('/musics', (req, res) => {
             genre
         }
         musics.push(newMusic)
-        return res.status(201).json(musics)
+        return res.status(201).json(newMusic)
     }
     catch(err){
         return res.status(500).json({ message : 'Internal server error'})
