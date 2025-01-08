@@ -4,6 +4,7 @@ import cors from "cors"
 import musicsRouter from "./routes/musicsRouter.js";
 import userRouter from "./routes/usersRouter.js";
 import mongoose from "mongoose";
+import postsRouter from "./routes/postsRouter.js";
 
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -11,7 +12,7 @@ const PORT = process.env.PORT || 8000
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended : false}))
-app.use('/api', musicsRouter, userRouter)
+app.use('/api', musicsRouter, userRouter, postsRouter)
 
 app.get('/', (request, response) => {
     response.send(`Welcome to my API`)
