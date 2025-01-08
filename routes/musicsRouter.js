@@ -70,5 +70,17 @@ musicsRouter.put('/musics/:id', (req, res) => {
     }
 });
 
+musicsRouter.delete('/musics/:id', (req, res) => {
+    const {id} = req.params
+    const musicIndex = musics.findIndex(music => music.id === parseInt(id, 10));
+
+    if (musicIndex === -1) {
+        return res.status(404).json({ message: 'Music to delete not found' });
+    }
+
+    musics.splice(musicIndex, 1)
+    return res.status(200).json({ message: 'Music deleted successfully' });
+})
+
 
 export default musicsRouter
