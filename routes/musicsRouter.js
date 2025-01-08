@@ -36,12 +36,14 @@ musicsRouter.post('/musics', (req, res) => {
         if(!name || !author || !genre){
             return res.status(401).json({message : 'All fields are required'})
         }
-        const newMusic = {
-            id : musics.length + 1,
-            name,
-            author,
-            genre
-        }
+        const newId = musics.length ? Math.max(...musics.map(m => m.id)) + 1 : 1;
+        const newMusic = { 
+            id: newId, 
+            name, 
+            author, 
+            genre 
+        };
+        
         musics.push(newMusic)
         return res.status(201).json(newMusic)
     }
