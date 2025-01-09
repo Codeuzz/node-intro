@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import Users from './Users.js'
 
 
 const PostSchema = new Schema({
@@ -13,7 +14,8 @@ const PostSchema = new Schema({
     },
     userId: {
         type: Schema.Types.ObjectId, 
-        ref: 'User'
+        ref: 'Users',
+        required: true
     }
    
 })

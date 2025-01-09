@@ -16,7 +16,12 @@ export const getAllPosts = async (req, res) => {
 
 export const createPost = async (req, res) => {
     try{
-        const newPost = await Posts.create(req.body)        
+        const { title, body, userId } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({ message: "userId is required" });
+        }
+        const newPost = await Posts.create({ title, body, userId })       
         return res.status(201).json(newPost)
     }
     catch(err){
@@ -38,3 +43,18 @@ export const getPostByID = async (req, res) => {
         return res.status(500).json({message: "internal serveer error in getPostById"})
     }
 }
+
+export const deletePost = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const post = await Posts.findByIdAndDelete(id); 
+        if (!post) {
+            return res.status(404).json({ message: 'Post to delete not found' });  
+        }
+
+        return res.status(200).json({ message: 'Post deleted successfully', post }); 
+    } catch (err) {
+        return res.status(500).json({ message: 'Internal server error in deletePost', error: err.message }); 
+    }
+};
