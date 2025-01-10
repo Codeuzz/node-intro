@@ -4,7 +4,7 @@ export const loginVerification = async (req, res, next) => {
     const {email, password} = req.body
 
     if(!email || !password) {
-        return res.jso({message: 'please provide aan email and a password'})
+        return res.json({message: 'please provide aan email and a password'})
     }
 
     next()

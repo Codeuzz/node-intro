@@ -8,7 +8,7 @@ export const registerUser = async (req, res) => {
     try {
         const emailVerification = await Users.findOne({email})
         if(emailVerification) {
-            return res.json({message: 'Email already taken'})
+            return res.status(409).json({message: 'Email already taken'})
         }
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
@@ -38,11 +38,11 @@ export const loginUser = async (req, res) => {
         }
         const passwordVerification = await bcrypt.compare(password, user.password)
         if(!passwordVerification){
-            return res.json({message : 'Email or password invalid'})
+            return res.status(401).json({message : 'Email or password invalid'})
         }
         const token = jwt.sign({user_id : user._id}, process.env.JWT_SECRET)
         
-        return res.status(200).json({ token });
+        return res.status(200).json({ token, message:`welcome back ${user.first_name}` });
     }
     catch(err) {
         console.error(err, "internal server error in loginUser")
